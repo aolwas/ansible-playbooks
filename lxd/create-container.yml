@@ -1,0 +1,35 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: create container
+      lxd_container:
+        name: "{{ item }}"
+        state: started
+        source:
+          type: image
+          mode: pull
+          server: https://images.linuxcontainers.org
+          protocol: lxd
+          alias: ubuntu/xenial/amd64
+        config:
+          raw.idmap: both {{ p_uid }} 1000
+        devices:
+          homedir:
+            type: disk
+            source: /home/{{ p_user }}
+            path: /local/{{ p_user }}
+        profiles:
+          - default
+        wait_for_ipv4_addresses: true
+        timeout: 600
+      with_items: "{{ groups['containers'] }}"
+
+- hosts: containers
+  gather_facts: False
+  tasks:
+    - name: install python in container
+      raw: apt-get update && apt-get install -y python-minimal
+    - name: Gather facts
+      setup:
+    - name: install minimal package
+      apt: name="openssh-server,openssh-client"

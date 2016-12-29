@@ -1,0 +1,6 @@
+[containers]
+devck
+docs
+
+[containers:vars]
+ansible_connection=lxd
