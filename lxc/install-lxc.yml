@@ -1,0 +1,50 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: install lxc
+      become: yes
+      apt: name="lxc,lxctl,lxc-templates,python-lxc"
+    - name: ensure subuid for user {{ ansible_env.USER }}
+      become: yes
+      lineinfile:
+        dest: /etc/subuid
+        line: "{{ ansible_env.USER}}:100000:65536"
+    - name: ensure subgid for user {{ ansible_env.USER }}
+      become: yes
+      lineinfile:
+        dest: /etc/subgid
+        line: "{{ ansible_env.USER}}:100000:65536"
+    - name: configure lxc-usernet for user {{ ansible_env.USER }}
+      become: yes
+      lineinfile:
+        dest: /etc/lxc/lxc-usernet
+        line: "{{ ansible_env.USER }} veth lxcbr0 10"
+    - name: copy default.conf to {{ ansible_env.USER }}'s homedir
+      copy:
+        src: /etc/lxc/default.conf
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        remote_src: true
+    - name: configure lxc user idmap (1/6)
+      lineinfile:
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        line: lxc.id_map = u 0 100000 1000
+    - name: configure lxc user idmap (2/6)
+      lineinfile:
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        line: lxc.id_map = g 0 100000 1000
+    - name: configure lxc user idmap (3/6)
+      lineinfile:
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        line: lxc.id_map = u 1000 1000 1
+    - name: configure lxc user idmap (4/6)
+      lineinfile:
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        line: lxc.id_map = g 1000 1000 1
+    - name: configure lxc user idmap (5/6)
+      lineinfile:
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        line: lxc.id_map = u 1001 101001 64535
+    - name: configure lxc user idmap (6/6)
+      lineinfile:
+        dest: "{{ ansible_env.HOME}}/.config/lxc/default.conf"
+        line: lxc.id_map = g 1001 101001 64535

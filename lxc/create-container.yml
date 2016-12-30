@@ -1,0 +1,49 @@
+- hosts: localhost
+  connection: local
+  vars:
+    containers:
+      - default
+  tasks:
+  - name: create container
+    lxc_container:
+      name: "{{ item }}"
+      template: download
+      state: started
+      template_options: -d ubuntu -r xenial -a amd64
+    with_items: "{{ containers }}"
+
+  - name: provision container
+    lxc_container:
+      name: "{{ item }}"
+      container_command: |
+        apt-get update
+        apt-get install -y curl vim openssh-server perl-modules
+        deluser --remove-home ubuntu
+        useradd {{ ansible_env.USER }} --uid 1000 --create-home --groups adm,sudo --shell /bin/bash
+        echo "{{ ansible_env.USER }}:5eCr3t" | chpasswd
+        mkdir /local
+    with_items: "{{ containers }}"
+
+  - name: mount $HOME in /local
+    lxc_container:
+      name: "{{ item }}"
+      state: restarted
+      container_config:
+        - "lxc.mount.entry = {{ ansible_env.HOME}} {{ ansible_env.HOME}}/.local/share/lxc/{{ item }}/rootfs/local none bind 0 0"
+    with_items: "{{ containers }}"
+    register: containers_info
+
+  - name: remove previous entries in /etc/hosts
+    become: yes
+    lineinfile:
+      dest: /etc/hosts
+      regexp: "^.* {{ item.item }}.lxc.local$"
+      state: absent
+    with_items: "{{ containers_info.results }}"
+
+  - name: add entries to /etc/hosts
+    become: yes
+    lineinfile:
+      dest: /etc/hosts
+      line: "{{ item.lxc_container.ips.0 }} {{ item.item }}.lxc.local"
+    with_items: "{{ containers_info.results }}"
