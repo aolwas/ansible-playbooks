@@ -1,5 +1,4 @@
-- hosts: localhost
-  connection: local
+- hosts: lxc_hosts
   vars:
     containers:
       - default
@@ -12,7 +11,14 @@
       template_options: -d ubuntu -r xenial -a amd64
     with_items: "{{ containers }}"
 
+  - name: wait for containers to be fully available
+    pause:
+      seconds: 10
+
   - name: provision container
+    vars:
+      pkey_path: ~/.ssh/id_rsa.pub
+      pkey: "{{ lookup('file', '{{ pkey_path }}') }}"
     lxc_container:
       name: "{{ item }}"
       container_command: |
@@ -20,7 +26,12 @@
         apt-get install -y curl vim openssh-server perl-modules
         deluser --remove-home ubuntu
         useradd {{ ansible_env.USER }} --uid 1000 --create-home --groups adm,sudo --shell /bin/bash
-        echo "{{ ansible_env.USER }}:5eCr3t" | chpasswd
+        echo "{{ ansible_env.USER }} ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/{{ ansible_env.USER }}
+        mkdir ~{{ ansible_env.USER }}/.ssh
+        echo "{{ pkey }}" | tee ~{{ ansible_env.USER }}/.ssh/authorized_keys
+        chown -R {{ ansible_env.USER }}:{{ ansible_env.USER }} ~{{ ansible_env.USER }}/.ssh
+        chmod 700 ~{{ ansible_env.USER }}/.ssh
+        chmod 600 ~{{ ansible_env.USER }}/.ssh/authorized_keys
         mkdir /local
     with_items: "{{ containers }}"
 
