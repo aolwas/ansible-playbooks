@@ -1,0 +1,58 @@
+- hosts: lxc_hosts
+  vars:
+    containers:
+      - default
+  tasks:
+  - name: create container
+    lxc_container:
+      name: "{{ item }}"
+      template: download
+      state: started
+      template_options: -d centos -r 7 -a amd64
+    with_items: "{{ containers }}"
+
+  - name: wait for containers to be fully available
+    pause:
+      seconds: 10
+
+  - name: provision container
+    vars:
+      pkey_path: ~/.ssh/id_rsa.pub
+      pkey: "{{ lookup('file', '{{ pkey_path }}') }}"
+    lxc_container:
+      name: "{{ item }}"
+      container_command: |
+        yum install -y curl vim openssh-server perl-modules language-pack-fr net-tools sudo vte3
+        useradd {{ ansible_env.USER }} --uid 1000 --create-home --groups adm --shell /bin/bash
+        echo "{{ ansible_env.USER }} ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/{{ ansible_env.USER }}
+        mkdir ~{{ ansible_env.USER }}/.ssh
+        echo "{{ pkey }}" | tee ~{{ ansible_env.USER }}/.ssh/authorized_keys
+        chown -R {{ ansible_env.USER }}:{{ ansible_env.USER }} ~{{ ansible_env.USER }}/.ssh
+        chmod 700 ~{{ ansible_env.USER }}/.ssh
+        chmod 600 ~{{ ansible_env.USER }}/.ssh/authorized_keys
+        mkdir /local
+    with_items: "{{ containers }}"
+    register: containers_info
+
+  - name: mount $HOME in /local
+    lxc_container:
+      name: "{{ item }}"
+      state: restarted
+      container_config:
+        - "lxc.mount.entry = {{ ansible_env.HOME}} {{ ansible_env.HOME}}/.local/share/lxc/{{ item }}/rootfs/local none bind 0 0"
+    with_items: "{{ containers }}"
+
+  - name: remove previous entries in /etc/hosts
+    become: yes
+    lineinfile:
+      dest: /etc/hosts
+      regexp: "^.* {{ item.item }}.lxc.local$"
+      state: absent
+    with_items: "{{ containers_info.results }}"
+
+  - name: add entries to /etc/hosts
+    become: yes
+    lineinfile:
+      dest: /etc/hosts
+      line: "{{ item.lxc_container.ips.0 }} {{ item.item }}.lxc.local"
+    with_items: "{{ containers_info.results }}"

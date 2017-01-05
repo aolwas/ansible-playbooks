@@ -23,7 +23,7 @@
       name: "{{ item }}"
       container_command: |
         apt-get update
-        apt-get install -y curl vim openssh-server perl-modules
+        apt-get install -y curl vim openssh-server perl-modules language-pack-fr
         deluser --remove-home ubuntu
         useradd {{ ansible_env.USER }} --uid 1000 --create-home --groups adm,sudo --shell /bin/bash
         echo "{{ ansible_env.USER }} ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/{{ ansible_env.USER }}
