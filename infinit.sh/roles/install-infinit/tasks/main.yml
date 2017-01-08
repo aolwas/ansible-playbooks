@@ -1,0 +1,39 @@
+- name: install apt key
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 3D2C3B0B
+    state: present
+- name: install repository
+  become: yes
+  apt_repository:
+    repo: deb https://debian.infinit.sh/ trusty main
+    state: present
+- name: update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+- name: install infinit and dependencies
+  become: yes
+  apt:
+    name: "{{ item }}" 
+    state: present
+  with_items:
+   - fuse
+   - software-properties-common
+   - apt-transport-https
+   - infinit
+- name: add {{bin_path}} to path
+  become: yes
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    backrefs: yes
+    regexp: 'PATH=(["]*)((?!.*?{{bin_path}}).*?)(["]*)$'
+    line: 'PATH=\1\2:{{bin_path}}\3'
+- name: configure fuse
+  become: yes
+  copy:
+    src: fuse.conf
+    dest: /etc/fuse.conf
+  
