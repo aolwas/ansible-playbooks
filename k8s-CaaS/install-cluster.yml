@@ -6,3 +6,4 @@
   roles:
   - { name: install-docker, tags: [install,docker]}
   - { name: install-k8s, tags: [install, k8s]}
+  - { name: install-infinit, tags: [install, infinit]}
