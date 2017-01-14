@@ -4,4 +4,5 @@
   - raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
   - setup:
   roles:
-  - { name: install-docker, tags: [install]}
+  - { name: install-docker, tags: [install,docker]}
+  - { name: install-k8s, tags: [install, k8s]}
