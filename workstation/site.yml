@@ -1,0 +1,9 @@
+- hosts: workstation
+  roles:
+    - { role: i3, become: yes }
+    - { role: powerline, become: yes }
+    - { role: ohmyzsh, become: yes }
+    - { role: apps, become: yes }
+    - { role: golang, become: yes }
+    - { role: dotfiles, project_dir: '{{ ansible_env.HOME }}/Projects/Perso' }
+    - { role: barista, project_dir: '{{ ansible_env.HOME }}/Projects/Perso' }

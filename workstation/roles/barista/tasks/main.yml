@@ -1,0 +1,29 @@
+- name: get barista repo
+  git:
+    repo: https://github.com/aolwas/barista.git
+    dest: '{{ project_dir }}/barista'
+  tags:
+    - barista
+
+- name: build mybarista
+  shell: 'go build mybarista.go'
+  args:
+    chdir: '{{ project_dir }}/barista'
+    executable: /bin/zsh
+  tags:
+    - barista
+
+- name: ensure ~/bin directory exists
+  file:
+    name: '{{ ansible_env.HOME}}/bin'
+    state: directory
+  tags:
+    - barista
+
+- name: copy mybarista to ~/bin
+  copy:
+    src: '{{ project_dir }}/barista/mybarista'
+    dest: '{{ ansible_env.HOME}}/bin/mybarista'
+    remote_src: yes
+  tags:
+    - barista

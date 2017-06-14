@@ -1,0 +1,9 @@
+- name: install misc applications
+  apt:
+    name: '{{ item }}'
+    update_cache: yes
+    state: latest
+  with_items:
+    - tmux
+  tags:
+    - misc

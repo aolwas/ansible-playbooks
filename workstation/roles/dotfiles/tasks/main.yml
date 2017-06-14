@@ -1,0 +1,32 @@
+- name: pull dotfiles git repository
+  git:
+    repo: 'https://github.com/aolwas/configs.git'
+    dest: '{{ project_dir }}/configs'
+  tags:
+    - dotfiles
+
+- name: remove original config files or link if exist
+  file:
+    path: '{{ ansible_env.HOME }}/{{ item }}'
+    state: absent
+  ignore_errors: yes
+  with_items:
+    - '.config/i3'
+    - '.config/powerline' 
+    - '.vimrc'
+    - '.zshrc'
+  tags:
+    - dotfiles
+  
+- name: create symlinks
+  file:
+    src: '{{ project_dir }}/configs/{{ item.src }}'
+    path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: 'i3', dest: '.config/i3' }
+    - { src: 'powerline', dest: '.config/powerline' }
+    - { src: 'vimrc/vimrc', dest: '.vimrc' }
+    - { src: 'zsh/zshrc', dest: '.zshrc' }
+  tags:
+    - dotfiles
