@@ -1,3 +1,9 @@
+- name: install albert repo
+  apt_repository:
+      repo: ppa:nilarimogard/webupd8
+  tags:
+    - apps
+
 - name: install misc applications
   apt:
     name: '{{ item }}'
@@ -5,5 +11,11 @@
     state: latest
   with_items:
     - tmux
+    - qemu-kvm
+    - libvirt-bin
+    - ubuntu-vm-builder
+    - bridge-utils
+    - virt-manager
+    - albert
   tags:
-    - misc
+    - apps
