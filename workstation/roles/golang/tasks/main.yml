@@ -3,16 +3,12 @@
   get_url: 
     url: "https://storage.googleapis.com/golang/go{{ golang_version }}.{{ golang_os }}-{{ golang_arch }}.tar.gz"
     dest: "/usr/local/src/go{{ golang_version }}.{{ golang_os }}-{{ golang_arch }}.tar.gz"
-  tags:
-    - golang
 
 - name: Extract and install Go
   unarchive: 
     src: "/usr/local/src/go{{ golang_version }}.{{ golang_os }}-{{ golang_arch }}.tar.gz"
     dest: /usr/local/
     copy: no
-  tags:
-    - golang
 
 - name: Install Godep
   command: /usr/local/go/bin/go get -u github.com/tools/godep
@@ -20,5 +16,3 @@
     creates: "{{ golang_path }}/bin/godep"
   environment:
     GOPATH: "{{ golang_path }}"
-  tags:
-    - golang

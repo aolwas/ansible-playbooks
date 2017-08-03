@@ -2,20 +2,14 @@
   get_url:
     url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2017.01.02_all.deb
     dest: /tmp/sur5r-keyring_2017.01.02_all.deb
-  tags:
-    - i3
 
 - name: install i3 keyring
   apt:
     deb: /tmp/sur5r-keyring_2017.01.02_all.deb
-  tags:
-    - i3
 
 - name: install i3 repo
   apt_repository:
     repo: 'deb http://debian.sur5r.net/i3/ {{ ansible_distribution_release }} universe'
-  tags:
-    - i3
 
 - name: install i3 and associated packages (network-applet, volumeicon, etc)
   apt:
@@ -29,12 +23,8 @@
     - volumeicon-alsa
     - pavucontrol
     - xbacklight
-  tags:
-    - i3
 
 - name: ensure xbacklight is functional
   template:
     src: xbacklight-intel.j2
     dest: /usr/share/X11/xorg.conf.d/20-intel.conf
-  tags:
-    - i3

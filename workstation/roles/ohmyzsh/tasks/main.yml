@@ -8,15 +8,11 @@
     - zsh
     - git
   register: installation
-  tags:
-    - ohmyzsh
 
 - name: Backing up existing ~/.zshrc
   become: no
   shell: if [ -f ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.orig; fi
   when: installation|success
-  tags:
-    - ohmyzsh
 
 - name: Cloning  oh-my-zsh
   become: no
@@ -25,8 +21,6 @@
     dest: '{{ ansible_env.HOME }}/.oh-my-zsh'
   when: installation|success
   register: cloning
-  tags:
-    - ohmyzsh
 
 - name: Creating new ~/.zshrc
   become: no
@@ -34,8 +28,6 @@
     src: '{{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template'
     dest: '{{ ansible_env.HOME }}/.zshrc'
   when: cloning|success
-  tags:
-    - ohmyzsh
 
 - name: install bullet-train theme
   become: no
@@ -43,8 +35,6 @@
     url: http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
     dest: '{{ ansible_env.HOME }}/.oh-my-zsh/themes/bullet-train.zsh-theme'
   when: cloning|success
-  tags:
-    - ohmyzsh
 
 - name: apply node prompt error patch
   become: no
@@ -52,13 +42,9 @@
     src: bullettrain.patch
     dest: '{{ ansible_env.HOME }}/.oh-my-zsh/themes/bullet-train.zsh-theme'
   when: cloning|success
-  tags:
-    - ohmyzsh
 
 - name: set default shell to zsh for $USER
   user:
     name: '{{ ansible_env.USER }}'
     shell: /bin/zsh
   when: installation|success
-  tags:
-    - ohmyzsh
