@@ -10,10 +10,11 @@
   ignore_errors: yes
   with_items:
     - '.config/i3'
-    - '.config/powerline' 
+    - '.config/powerline'
+    - '.config/termite'
     - '.vimrc'
     - '.zshrc'
-  
+
 - name: create symlinks
   file:
     src: '{{ project_dir }}/configs/{{ item.src }}'
@@ -24,3 +25,4 @@
     - { src: 'powerline', dest: '.config/powerline' }
     - { src: 'vimrc/vimrc', dest: '.vimrc' }
     - { src: 'zsh/zshrc', dest: '.zshrc' }
+    - { src: 'termite', dest: '.config/termite'}

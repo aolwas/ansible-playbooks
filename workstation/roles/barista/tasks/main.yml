@@ -1,20 +1,24 @@
 - name: get barista repo
+  become: no
   git:
     repo: https://github.com/aolwas/barista.git
     dest: '{{ project_dir }}/barista'
 
 - name: build mybarista
+  become: no
   shell: 'go build mybarista.go'
   args:
     chdir: '{{ project_dir }}/barista'
     executable: /bin/zsh
 
 - name: ensure ~/bin directory exists
+  become: no
   file:
     name: '{{ ansible_env.HOME}}/bin'
     state: directory
 
 - name: copy mybarista to ~/bin
+  become: no
   copy:
     src: '{{ project_dir }}/barista/mybarista'
     dest: '{{ ansible_env.HOME}}/bin/mybarista'

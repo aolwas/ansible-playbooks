@@ -1,7 +1,7 @@
 ---
 - name: Install dependencies of Linuxbrew
-  apt: 
-    name: "{{ item }}" 
+  apt:
+    name: "{{ item }}"
     state: present
   with_items:
     - build-essential
@@ -18,7 +18,7 @@
     - zlib1g-dev
 
 - name: Install Linuxbrew
-  git: 
+  git:
     repo: https://github.com/Linuxbrew/brew.git
     dest: "{{ ansible_env.HOME }}/.linuxbrew"
   become: no
@@ -30,12 +30,13 @@
   become: no
 
 - name: Install brew packages
-  homebrew: 
+  homebrew:
     name: "{{ item }}"
     state: present
   with_items:
   - go
   - fzf
+  - neovim
   environment:
     PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
