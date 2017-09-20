@@ -61,3 +61,8 @@
 - name: Set termite as default terminal
   alternatives: name=x-terminal-emulator
                 path=/usr/local/bin/termite
+
+- name: set terminfo
+  shell: tic -x termite.terminfo
+  args:
+    chdir: '{{ project_dir }}/termite'
