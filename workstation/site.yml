@@ -1,5 +1,6 @@
 - hosts: workstation
   roles:
+    - { role: system, become: yes, tags: [system] }
     - { role: i3, become: yes, tags: [i3] }
     - { role: powerline, become: yes, tags: [powerline] }
     - { role: ohmyzsh, become: yes, tags: [ohmyzsh] }

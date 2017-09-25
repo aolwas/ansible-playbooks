@@ -28,9 +28,3 @@
   template:
     src: xbacklight-intel.j2
     dest: /usr/share/X11/xorg.conf.d/20-intel.conf
-
-- name: ensure networking service is disabled (conflict with network-manager)
-  systemd:
-    name: networking
-    state: stop
-    enabled: False
