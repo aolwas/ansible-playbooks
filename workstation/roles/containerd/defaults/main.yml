@@ -1,0 +1,3 @@
+containerd_version: 1.0.0-beta.3
+containerd_runc_version: 1.0.0-rc4
+containerd_install_dir: /usr/local

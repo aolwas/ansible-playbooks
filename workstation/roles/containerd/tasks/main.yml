@@ -1,0 +1,24 @@
+- name: install runc
+  get_url:
+    url: "https://github.com/opencontainers/runc/releases/download/v{{ containerd_runc_version }}/runc.amd64"
+    dest: /usr/local/bin/runc
+    mode: 0755
+
+- name: install containerd
+  unarchive:
+    src: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version}}/containerd-{{ containerd_version }}.linux-amd64.tar.gz"
+    dest: "{{ containerd_install_dir }}"
+    remote_src: yes
+  notify: restart containerd
+
+- name: install systemd service
+  template:
+    src: containerd.j2
+    dest: /etc/systemd/system/containerd.service
+  notify: restart containerd
+
+- name: ensure containerd service is started
+  systemd:
+    name: containerd
+    state: started
+    daemon_reload: yes
