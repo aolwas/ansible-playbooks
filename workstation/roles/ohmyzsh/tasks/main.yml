@@ -1,12 +1,14 @@
 # Based on https://github.com/veggiemonk/ansible-ohmyzsh
 - name: Installing Zsh and git
-  apt: 
+  apt:
     name: '{{ item  }}'
     state: latest
     update_cache: yes
   with_items:
     - zsh
     - git
+    - fonts-powerline
+    - fonts-font-awesome
   register: installation
 
 - name: Backing up existing ~/.zshrc
