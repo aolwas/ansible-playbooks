@@ -2,17 +2,6 @@
   apt_repository:
       repo: ppa:nilarimogard/webupd8
 
-- name: install seadrive key
-  apt_key:
-    keyserver: hkp://keyserver.ubuntu.com:80
-    id: 8756C4F765C9AC3CB6B85D62379CE192D401AB61
-
-- name: install seadrive repo
-  apt_repository:
-    repo: deb http://deb.seadrive.org jessie main
-    state: present
-    filename: seafile
-
 - name: install misc applications
   apt:
     name: '{{ item }}'
@@ -26,4 +15,3 @@
     - bridge-utils
     - virt-manager
     - albert
-    - seadrive-gui
