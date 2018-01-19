@@ -37,6 +37,9 @@
   - go
   - fzf
   - neovim
+  - kubernetes-cli
+  - kubectx
+  - kubernetes-helm
   environment:
     PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
