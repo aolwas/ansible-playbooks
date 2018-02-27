@@ -31,18 +31,33 @@
     dest: '{{ ansible_env.HOME }}/.zshrc'
   when: cloning|success
 
+- name: ensure custom theme directory exists
+  become: no
+  file:
+    path: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes'
+    state: directory
+  when: cloning|success
+
+- name: install spaceship theme
+  become: no
+  git:
+    repo: https://github.com/denysdovhan/spaceship-prompt.git
+    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/spaceship-prompt'
+  when: cloning|success
+
+- name: create spaceship symlink
+  become: no
+  file:
+    path: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme'
+    src: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme'
+    state: link
+  when: cloning|success
+
 - name: install bullet-train theme
   become: no
   get_url:
     url: http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/themes/bullet-train.zsh-theme'
-  when: cloning|success
-
-- name: apply node prompt error patch
-  become: no
-  patch:
-    src: bullettrain.patch
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/themes/bullet-train.zsh-theme'
+    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/bullet-train.zsh-theme'
   when: cloning|success
 
 - name: set default shell to zsh for $USER
