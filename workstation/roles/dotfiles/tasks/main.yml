@@ -24,5 +24,6 @@
     - { src: 'i3', dest: '.config/i3' }
     - { src: 'powerline', dest: '.config/powerline' }
     - { src: 'vimrc/vimrc', dest: '.vimrc' }
-    - { src: 'zsh/zshrc', dest: '.zshrc' }
+    - { src: 'zsh/config/zshrc', dest: '.zshrc' }
+    - { src: 'zsh/plugins/ol', dest: '.oh-my-zsh/custom/plugins/ol' }
     - { src: 'termite', dest: '.config/termite'}
