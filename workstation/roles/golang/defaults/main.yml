@@ -1,4 +1,0 @@
-golang_version: 1.8.3
-golang_os: linux
-golang_arch: amd64
-golang_path: "/home/{{ ansible_ssh_user }}/go"
