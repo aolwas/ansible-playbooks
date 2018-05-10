@@ -1,11 +1,5 @@
-- name: ensure ~/bin directory exists
-  become: no
-  file:
-    name: '{{ ansible_env.HOME}}/bin'
-    state: directory
-
 - name: install my barista
   become: no
-  shell: go install github.com/aolwas/mybarista
-  environment:
-    GOBIN: "{{ ansible_env.HOME}}/bin"
+  shell: go get github.com/aolwas/mybarista
+  #environment:
+  #  GOBIN: "{{ ansible_env.HOME}}/go/bin"

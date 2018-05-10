@@ -22,7 +22,44 @@
     - network-manager-openvpn-gnome
     - volumeicon-alsa
     - pavucontrol
+      #    - amixer
+      #    - convert
+    - grabc
+    - i3lock
+      #    - notify-send
+    - scrot
+    - sxiv
     - xbacklight
+      #    - xkill
+      #    - zenity
+
+- name: pull i3-utils-bin git repository
+  git:
+    repo: 'https://github.com/aolwas/i3-utils-bin.git'
+    dest: '{{ project_dir }}/i3-utils-bin'
+  become: no
+
+- name: install i3-utils bin 
+  shell: "make install"
+  args:
+    chdir: '{{ project_dir }}/i3-utils-bin'
+
+- name: pull i3-utils-systemd git repository
+  git:
+    repo: 'https://github.com/aolwas/i3-utils-systemd.git'
+    dest: '{{ project_dir }}/i3-utils-systemd'
+  become: no
+
+- name: configure i3-utils systemd services
+  shell: "./configure"
+  args:
+    chdir: '{{ project_dir }}/i3-utils-systemd'
+  become: no
+
+- name: install i3-utils systemd services
+  shell: "make install"
+  args:
+    chdir: '{{ project_dir }}/i3-utils-systemd'
 
 - name: ensure xbacklight is functional
   template:

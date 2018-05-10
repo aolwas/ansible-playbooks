@@ -17,10 +17,10 @@
     - libncurses-dev
     - zlib1g-dev
       # if needed for alacritty install
-      #    - cmake
-      #    - libfreetype6-dev
-      #    - libfontconfig1-dev
-      #    - xclip
+    - cmake
+    - libfreetype6-dev
+    - libfontconfig1-dev
+    - xclip
 
 - name: Install Linuxbrew
   git:
@@ -56,7 +56,7 @@
   become: no
 
 - name: fzf post install
-  shell: "{{ ansible_env.HOME }}/.linuxbrew/opt/fzf/install"
+  shell: "{{ ansible_env.HOME }}/.linuxbrew/opt/fzf/install --all"
   environment:
     PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"

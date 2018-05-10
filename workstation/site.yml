@@ -1,12 +1,12 @@
 - hosts: workstation
   roles:
     - { role: system, become: yes, tags: [system] }
-    - { role: i3, become: yes, tags: [i3] }
+    - { role: i3, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [i3] }
     - { role: ohmyzsh, become: yes, tags: [ohmyzsh] }
     - { role: apps, become: yes, tags: [apps] }
     - { role: vagrant, become: yes, tags: [ vagrant] }
     - { role: linuxbrew, become: yes, tags: [linuxbrew] }
     - { role: dotfiles, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [dotfiles] }
     - { role: barista, tags: [barista] }
-    - { role: containerd, become: yes, tags: [containerd] }
-    - { role: termite, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [termite] }
+      #    - { role: containerd, become: yes, tags: [containerd] }
+      #    - { role: termite, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [termite] }
