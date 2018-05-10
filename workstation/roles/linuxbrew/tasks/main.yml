@@ -23,23 +23,27 @@
     dest: "{{ ansible_env.HOME }}/.linuxbrew"
   become: no
 
-  #- name: Tap homebrew/extra
-  #  shell: brew tap homebrew/extra
-  #  environment:
-  #    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-  #  become: no
-
 - name: Install brew packages
   homebrew:
     name: "{{ item }}"
     state: present
   with_items:
   - go
+  - rustup
   - fzf
-  - neovim
   - kubernetes-cli
   - kubectx
   - kubernetes-helm
+  - ranger
+  - vault
+  - terraform
+  environment:
+    PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+  become: no
+
+- name: rustup post install
+  shell: "rustup-init -y"
   environment:
     PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
@@ -47,6 +51,17 @@
 
 - name: fzf post install
   shell: "{{ ansible_env.HOME }}/.linuxbrew/opt/fzf/install"
+  environment:
+    PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+  become: no
+
+- name: Install rust based brew packages
+  homebrew:
+    name: "{{ item }}"
+    state: head
+  with_items:
+  - aolwas/homebrew-tap/alacritty
   environment:
     PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
