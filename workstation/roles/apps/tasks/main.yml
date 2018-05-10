@@ -1,6 +1,13 @@
 - name: install albert repo
   apt_repository:
-      repo: ppa:nilarimogard/webupd8
+    repo: deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /
+    state: present
+    filename: home:manuelschneid3r
+
+- name: install albert repo key
+  apt_key:
+    url: https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key
+    state: present
 
 - name: install misc applications
   apt:
