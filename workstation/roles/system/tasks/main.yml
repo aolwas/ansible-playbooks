@@ -25,6 +25,7 @@
     path: /etc/NetworkManager/NetworkManager.conf
     insertafter: '^\[main\]'
     line: 'dns=default'
+  register: nmdnsconf
   notify:
     - restart network-manager
 
@@ -32,6 +33,10 @@
   file:
     path: /etc/resolv.conf
     state: absent
+  when: nmdnsconf.changed
   notify:
     - restart network-manager
 
+- name: flush handlers to recreate the resolv.conf file
+  meta: flush_handlers
+  when: nmdnsconf.changed

@@ -1,11 +1,11 @@
 - name: download i3 keyring
   get_url:
-    url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2017.01.02_all.deb
-    dest: /tmp/sur5r-keyring_2017.01.02_all.deb
+    url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2018.01.30_all.deb
+    dest: /tmp/sur5r-keyring_2018.01.30_all.deb
 
 - name: install i3 keyring
   apt:
-    deb: /tmp/sur5r-keyring_2017.01.02_all.deb
+    deb: /tmp/sur5r-keyring_2018.01.30_all.deb
 
 - name: install i3 repo
   apt_repository:

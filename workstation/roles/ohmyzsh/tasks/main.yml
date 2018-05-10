@@ -14,14 +14,14 @@
 - name: Backing up existing ~/.zshrc
   become: no
   shell: if [ -f ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.orig; fi
-  when: installation|success
+  when: installation is success
 
 - name: Cloning  oh-my-zsh
   become: no
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh
     dest: '{{ ansible_env.HOME }}/.oh-my-zsh'
-  when: installation|success
+  when: installation is success
   register: cloning
 
 - name: Creating new ~/.zshrc
@@ -29,21 +29,21 @@
   copy:
     src: '{{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template'
     dest: '{{ ansible_env.HOME }}/.zshrc'
-  when: cloning|success
+  when: cloning is success
 
 - name: ensure custom theme directory exists
   become: no
   file:
     path: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes'
     state: directory
-  when: cloning|success
+  when: cloning is success
 
 - name: install spaceship theme
   become: no
   git:
     repo: https://github.com/denysdovhan/spaceship-prompt.git
     dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/spaceship-prompt'
-  when: cloning|success
+  when: cloning is success
 
 - name: create spaceship symlink
   become: no
@@ -51,17 +51,10 @@
     path: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme'
     src: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme'
     state: link
-  when: cloning|success
-
-- name: install bullet-train theme
-  become: no
-  get_url:
-    url: http://raw.github.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
-    dest: '{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/bullet-train.zsh-theme'
-  when: cloning|success
+  when: cloning is success
 
 - name: set default shell to zsh for $USER
   user:
     name: '{{ ansible_env.USER }}'
     shell: /bin/zsh
-  when: installation|success
+  when: installation is success

@@ -44,22 +44,22 @@
   - vault
   - terraform
   environment:
-    PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
   become: no
 
 - name: rustup post install
   shell: "rustup-init -y"
   environment:
-    PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
   become: no
 
 - name: fzf post install
   shell: "{{ ansible_env.HOME }}/.linuxbrew/opt/fzf/install"
   environment:
-    PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
   become: no
 
 - name: Install rust based brew packages
@@ -69,6 +69,6 @@
   with_items:
   - aolwas/homebrew-tap/alacritty
   environment:
-    PATH: "{{ ansible_home }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "{{ ansible_home}}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
   become: no
