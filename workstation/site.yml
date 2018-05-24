@@ -8,5 +8,6 @@
     - { role: linuxbrew, become: yes, tags: [linuxbrew] }
     - { role: dotfiles, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [dotfiles] }
     - { role: barista, tags: [barista] }
+    - { role: docker, become: yes, tags: [docker] }
       #    - { role: containerd, become: yes, tags: [containerd] }
       #    - { role: termite, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [termite] }

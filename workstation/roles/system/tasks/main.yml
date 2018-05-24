@@ -40,3 +40,22 @@
 - name: flush handlers to recreate the resolv.conf file
   meta: flush_handlers
   when: nmdnsconf.changed
+
+- name: Create Xorg configuration directory
+  file:
+    path: /etc/X11/xorg.conf.d
+    state: directory
+
+# https://wiki.archlinux.org/index.php/Libinput#Common_options
+- name: Enable natural scrolling
+  blockinfile:
+    path: /etc/X11/xorg.conf.d/30-touchpad.conf
+    create: yes
+    block: |
+      Section "InputClass"
+          Identifier "libinput touchpad catchall"
+          Driver "libinput"
+          MatchIsTouchpad "on"
+          MatchDevicePath "/dev/input/event*"
+          Option "NaturalScrolling" "true"
+      EndSection
