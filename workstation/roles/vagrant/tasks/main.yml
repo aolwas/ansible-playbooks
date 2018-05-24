@@ -13,7 +13,15 @@
     - libvirt-dev
     - zlib1g-dev
     - ruby-dev
+    - ruby-libvirt
+    - qemu
+    - libvirt-bin
+    - ebtables
+    - dnsmasq
+    - build-essential
 
 - name: install vagrant-libvirt plugin
   become: no
   shell: vagrant plugin install vagrant-libvirt
+  environment:
+    CONFIGURE_ARGS: "with-libvirt-include=/usr/include/libvirt with-libvirt-lib=/usr/lib"
