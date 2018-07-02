@@ -43,6 +43,8 @@
   - ranger
   - vault
   - terraform
+  - bitwarden-cli
+  - docker-compose
   environment:
     PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"

@@ -31,6 +31,8 @@
     - sxiv
     - xbacklight
       #    - xkill
+    - build-essential
+    - git
       #    - zenity
 
 - name: pull i3-utils-bin git repository

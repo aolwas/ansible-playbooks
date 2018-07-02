@@ -58,4 +58,7 @@
           MatchIsTouchpad "on"
           MatchDevicePath "/dev/input/event*"
           Option "NaturalScrolling" "true"
+          Option "ClickMethod" "clickfinger"
+          Option "Tapping" "off"
+          Option "DisableWhileTyping" "on"
       EndSection

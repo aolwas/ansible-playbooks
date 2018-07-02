@@ -29,7 +29,7 @@
     - { src: 'vimrc/vimrc', dest: '.vimrc' }
     - { src: 'zsh/config/zshrc', dest: '.zshrc' }
     - { src: 'zsh/plugins/ol', dest: '.oh-my-zsh/custom/plugins/ol' }
-      #- { src: 'termite', dest: '.config/termite'}
+    - { src: 'termite', dest: '.config/termite'}
     - { src: 'tmux/tmux.conf', dest: '.tmux.conf' }
     - { src: 'alacritty/config', dest: '.config/alacritty' }
     - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }
