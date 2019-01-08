@@ -1,13 +1,14 @@
 - name: install dependencies
-  apt:
-    name: '{{ item }}'
-    update_cache: yes
-    state: latest
-  with_items:
+  vars:
+    docker_dep_pkgs:
     - apt-transport-https
     - ca-certificates
     - curl
     - software-properties-common
+  apt:
+    name: '{{ docker_dep_pkgs }}'
+    update_cache: yes
+    state: latest
 
 - name: install docker key
   apt_key:
@@ -20,11 +21,9 @@
 
 - name: install docker
   apt:
-    name: '{{ item }}'
+    name: 'docker-ce'
     update_cache: yes
     state: latest
-  with_items:
-    - docker-ce
 
 - name: add aolwas user to docker group
   user:
