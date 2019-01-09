@@ -1,9 +1,7 @@
 ---
 - name: Install dependencies of Linuxbrew
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+  vars:
+    lb_dep_pkgs:
     - build-essential
     - gcc-4.8
     - curl
@@ -21,37 +19,46 @@
     - libfreetype6-dev
     - libfontconfig1-dev
     - xclip
+  apt:
+    name: "{{ lb_dep_pkgs }}"
+    state: present
+
+- name: Ensure /home/linuxbrew exists
+  file:
+    path: /home/linuxbrew
+    state: directory
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
 
 - name: Install Linuxbrew
   git:
-    repo: https://github.com/Linuxbrew/brew.git
-    dest: "{{ ansible_env.HOME }}/.linuxbrew"
+    repo: https://github.com/Homebrew/brew
+    dest: /home/linuxbrew/.linuxbrew
   become: no
 
 - name: Install brew packages
+  vars:
+    lb_pkgs:
+    - go
+    - dep
+    - fzf
+    - ag
+    - kubernetes-cli
+    - kubectx
+    - kubernetes-helm
+    - vault
+    - terraform
   homebrew:
-    name: "{{ item }}"
+    name: "{{ lb_pkgs }}"
     state: present
-  with_items:
-  - go
-  - dep
-  - fzf
-  - ag
-  - kubernetes-cli
-  - kubectx
-  - kubernetes-helm
-  - ranger
-  - vault
-  - terraform
-  - bitwarden-cli
   environment:
-    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
   become: no
 
 - name: fzf post install
-  shell: "{{ ansible_env.HOME }}/.linuxbrew/opt/fzf/install --all"
+  shell: "/home/linuxbrew/.linuxbrew/opt/fzf/install --all"
   environment:
-    PATH: "{{ ansible_env.HOME }}/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "{{ ansible_env.HOME }}/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH }}"
+    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
   become: no

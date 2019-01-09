@@ -10,16 +10,33 @@
     filename: home:manuelschneid3r
 
 - name: install misc applications
-  apt:
-    name: '{{ item }}'
-    update_cache: yes
-    state: latest
-  with_items:
-    - tmux
+  vars:
+    app_pkgs:
     - qemu-kvm
     - libvirt-bin
-    - ubuntu-vm-builder
     - bridge-utils
     - virt-manager
     - albert
     - ssh-askpass
+    - zsh
+  apt:
+    name: '{{ app_pkgs }}'
+    update_cache: yes
+    state: latest
+
+- name: set default shell to zsh for $USER
+  user:
+    name: '{{ ansible_env.USER }}'
+    shell: /bin/zsh
+
+- name: install alacritty
+  apt:
+    deb: https://github.com/jwilm/alacritty/releases/download/v0.2.5/Alacritty-v0.2.5_amd64.deb
+
+# snap module will be available in ansible 2.8
+# - name: install antibody
+#   snap:
+#     name: antibody
+
+- name: install antibody
+  shell: snap install antibody
