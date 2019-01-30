@@ -1,6 +1,6 @@
 - hosts: workstation
   roles:
-    # - { role: system, become: yes, tags: [system] }
+    - { role: system, become: yes, tags: [system] }
     - { role: i3, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [i3] }
     - { role: apps, become: yes, tags: [apps] }
 #    - { role: vagrant, become: yes, tags: [ vagrant] }

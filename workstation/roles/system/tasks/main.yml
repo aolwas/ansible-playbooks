@@ -58,33 +58,32 @@
           MatchIsTouchpad "on"
           MatchDevicePath "/dev/input/event*"
           Option "NaturalScrolling" "true"
-          Option "ClickMethod" "clickfinger"
           Option "Tapping" "off"
           Option "DisableWhileTyping" "on"
       EndSection
 
-- name: ensure deep sleep mode
-  grub_cmdline:
-    option: mem_sleep_default
-    value: deep
-  register: grub_update_res
+# - name: ensure deep sleep mode
+#   grub_cmdline:
+#     option: mem_sleep_default
+#     value: deep
+#   register: grub_update_res
 
-- name: reboot to apply modification
-  shell: sleep 2 && shutdown -r now "Reboot triggered by Ansible"
-  async: 1
-  poll: 0
-  ignore_errors: yes
-  when:
-  - grub_update_res.changed
+# - name: reboot to apply modification
+#   shell: sleep 2 && shutdown -r now "Reboot triggered by Ansible"
+#   async: 1
+#   poll: 0
+#   ignore_errors: yes
+#   when:
+#   - grub_update_res.changed
 
-- name: wait for reboot
-  become: no
-  local_action: wait_for
-  args:
-    host: "{{ inventory_hostname }}"
-    port: 22
-    state: started
-    delay: 30
-    timeout: 300
-  when:
-  - grub_update_res.changed
+# - name: wait for reboot
+#   become: no
+#   local_action: wait_for
+#   args:
+#     host: "{{ inventory_hostname }}"
+#     port: 22
+#     state: started
+#     delay: 30
+#     timeout: 300
+#   when:
+#   - grub_update_res.changed

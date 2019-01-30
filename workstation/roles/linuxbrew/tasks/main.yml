@@ -48,6 +48,8 @@
     - kubernetes-helm
     - vault
     - terraform
+    - gpg2
+    - direnv
   homebrew:
     name: "{{ lb_pkgs }}"
     state: present
