@@ -46,6 +46,7 @@
     - kubernetes-cli
     - kubectx
     - kubernetes-helm
+    - stern
     - vault
     - terraform
     - gpg2
