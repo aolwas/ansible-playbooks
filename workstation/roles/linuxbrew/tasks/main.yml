@@ -41,6 +41,7 @@
     lb_pkgs:
     - go
     - dep
+    - rustup-init
     - fzf
     - ag
     - kubernetes-cli
