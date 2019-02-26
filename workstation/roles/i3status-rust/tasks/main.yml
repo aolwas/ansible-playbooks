@@ -20,7 +20,8 @@
   environment:
     PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
-  
+    PKG_CONFIG_PATH: "/usr/lib/x86_64-linux-gnu/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
+
 - name: Install i3status-rust
   become: no
   copy:
