@@ -10,6 +10,7 @@
        state=present
   with_items:
   - libdbus-1-dev
+  - fonts-font-awesome
 
 - name: build i3status-rust
   become: no
@@ -23,10 +24,10 @@
     PKG_CONFIG_PATH: "/usr/lib/x86_64-linux-gnu/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
 
 - name: Install i3status-rust
-  become: no
+  become: yes
   copy:
     src: '{{ project_dir }}/target/release/i3status-rs'
-    dest: '{{ ansible_env.HOME}}/bin/i3status-rust'
+    dest: '/usr/local/bin/i3status-rs'
     remote_src: yes
     mode: 0744
 
