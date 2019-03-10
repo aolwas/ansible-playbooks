@@ -61,6 +61,7 @@
     - kubectx
     - kubernetes-helm
     - stern
+    - awscli
     - vault
     - terraform
     - gpg2
