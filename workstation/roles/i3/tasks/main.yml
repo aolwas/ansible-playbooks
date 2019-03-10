@@ -2,14 +2,17 @@
   get_url:
     url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2018.01.30_all.deb
     dest: /tmp/sur5r-keyring_2018.01.30_all.deb
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 keyring
   apt:
     deb: /tmp/sur5r-keyring_2018.01.30_all.deb
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 repo
   apt_repository:
     repo: 'deb http://debian.sur5r.net/i3/ {{ ansible_distribution_release }} universe'
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 and associated packages (network-applet, volumeicon, etc)
   apt:
@@ -34,6 +37,24 @@
     - build-essential
     - git
       #    - zenity
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install i3 and associated packages (network-applet, volumeicon, etc)
+  vars:
+    i3_pkgs:
+      - i3
+      - feh
+      - network-manager-applet
+      - volumeicon
+      - pavucontrol
+      - i3lock
+      - scrot
+      - sxiv
+      - xbacklight
+  dnf:
+    name: '{{ i3_pkgs }}'
+    state: latest
+  when: ansible_distribution == 'Fedora'
 
 - name: pull i3-utils-bin git repository
   git:

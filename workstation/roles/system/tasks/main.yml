@@ -19,6 +19,7 @@
   with_items:
     - networking
     - systemd-resolved
+  when: ansible_distribution == 'Ubuntu'
 
 - name: ensure network-manager is configured with default dns option
   lineinfile:
@@ -28,6 +29,7 @@
   register: nmdnsconf
   notify:
     - restart network-manager
+  when: ansible_distribution == 'Ubuntu'
 
 - name: ensure /etc/resolv.conf does not exist (and is managed by network-manager)
   file:
@@ -36,10 +38,15 @@
   when: nmdnsconf.changed
   notify:
     - restart network-manager
+  when: ansible_distribution == 'Ubuntu'
 
 - name: flush handlers to recreate the resolv.conf file
   meta: flush_handlers
-  when: nmdnsconf.changed
+  when: ansible_distribution == 'Ubuntu' and nmdnsconf.changed
+
+- selinux:
+    state: disabled
+  when: ansible_distribution == 'Fedora'
 
 - name: Create Xorg configuration directory
   file:

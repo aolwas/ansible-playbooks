@@ -22,6 +22,19 @@
   apt:
     name: "{{ lb_dep_pkgs }}"
     state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install dependencies of Linuxbrew
+  vars:
+    lb_dep_pkgs:
+    - '@Development Tools'
+    - curl
+    - file
+    - git
+  dnf:
+    name: "{{ lb_dep_pkgs }}"
+    state: present
+  when: ansible_distribution == 'Fedora'
 
 - name: Ensure /home/linuxbrew exists
   file:

@@ -6,5 +6,5 @@
 #    - { role: vagrant, become: yes, tags: [ vagrant] }
     - { role: linuxbrew, become: yes, tags: [linuxbrew] }
     - { role: dotfiles, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [dotfiles] }
-    # - { role: barista, tags: [barista] }
+    - { role: i3status-rust, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [i3status-rust] }
     - { role: docker, become: yes, tags: [docker] }

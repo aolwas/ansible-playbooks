@@ -2,12 +2,14 @@
   apt_key:
     url: https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key
     state: present
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install albert repo
   apt_repository:
     repo: deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /
     state: present
     filename: home:manuelschneid3r
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install misc applications
   vars:
@@ -19,19 +21,39 @@
     - albert
     - ssh-askpass
     - zsh
+    - arandr
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes
     state: latest
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install misc applications
+  vars:
+    app_pkgs:
+    - qemu-kvm
+    - libvirt
+    - bridge-utils
+    - virt-manager
+    - https://download.opensuse.org/repositories/home:/manuelschneid3r/Fedora_29/x86_64/albert-0.16.1-228.1.x86_64.rpm
+    - openssh-askpass
+    - zsh
+    - arandr
+    - podman
+  dnf:
+    name: '{{ app_pkgs }}'
+    update_cache: yes
+    state: latest
+  when: ansible_distribution == 'Fedora'
 
 - name: set default shell to zsh for $USER
   user:
     name: '{{ ansible_env.USER }}'
     shell: /bin/zsh
 
-- name: install alacritty
-  apt:
-    deb: https://github.com/jwilm/alacritty/releases/download/v0.2.5/Alacritty-v0.2.5_amd64.deb
+#- name: install alacritty
+#  apt:
+#    deb: https://github.com/jwilm/alacritty/releases/download/v0.2.5/Alacritty-v0.2.5_amd64.deb
 
 # snap module will be available in ansible 2.8
 # - name: install antibody
@@ -39,4 +61,4 @@
 #     name: antibody
 
 - name: install antibody
-  shell: snap install antibody
+  shell: "curl -sL git.io/antibody | sh -s"

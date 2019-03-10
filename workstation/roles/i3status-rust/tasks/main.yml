@@ -1,9 +1,10 @@
 ---
 - name: Clone repo
   become: no
-  git: repo=https://github.com/greshake/i3status-rust
-       accept_hostkey=true
-       dest='{{ project_dir }}/i3status-rust'
+  git: 
+    repo: https://github.com/greshake/i3status-rust
+    accept_hostkey: true
+    dest: '{{ project_dir }}/i3status-rust'
 
 - name: Install dependencies
   apt: name={{item}}
@@ -11,6 +12,17 @@
   with_items:
   - libdbus-1-dev
   - fonts-font-awesome
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install dependencies
+  vars:
+    i3status_pkgs:
+      - dbus-devel
+      - fontawesome-fonts
+  dnf: 
+    name: '{{ i3status_pkgs }}'
+    state: present
+  when: ansible_distribution == 'Fedora'
 
 - name: build i3status-rust
   become: no
@@ -22,12 +34,24 @@
     PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
     PKG_CONFIG_PATH: "/usr/lib/x86_64-linux-gnu/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: build i3status-rust
+  become: no
+  shell: cargo build --release
+  args:
+    chdir: '{{ project_dir }}/i3status-rust'
+    creates: '{{ project_dir }}/target/release/i3status-rs'
+  environment:
+    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
+    PKG_CONFIG_PATH: "/usr/lib64/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
+  when: ansible_distribution == 'Fedora'
 
 - name: Install i3status-rust
-  become: yes
   copy:
-    src: '{{ project_dir }}/target/release/i3status-rs'
+    src: '{{ project_dir }}/i3status-rust/target/release/i3status-rs'
     dest: '/usr/local/bin/i3status-rs'
     remote_src: yes
-    mode: 0744
+    mode: 0755
 
