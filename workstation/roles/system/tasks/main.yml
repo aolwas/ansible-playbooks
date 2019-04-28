@@ -35,10 +35,9 @@
   file:
     path: /etc/resolv.conf
     state: absent
-  when: nmdnsconf.changed
+  when: ansible_distribution == 'Ubuntu' and nmdnsconf.changed
   notify:
     - restart network-manager
-  when: ansible_distribution == 'Ubuntu'
 
 - name: flush handlers to recreate the resolv.conf file
   meta: flush_handlers
@@ -67,6 +66,7 @@
           Option "NaturalScrolling" "true"
           Option "Tapping" "off"
           Option "DisableWhileTyping" "on"
+          Option "AccelSpeed" "3.0"
       EndSection
 
 # - name: ensure deep sleep mode
@@ -74,14 +74,14 @@
 #     option: mem_sleep_default
 #     value: deep
 #   register: grub_update_res
+#   when: ansible_distribution == 'Ubuntu'
 
 # - name: reboot to apply modification
 #   shell: sleep 2 && shutdown -r now "Reboot triggered by Ansible"
 #   async: 1
 #   poll: 0
 #   ignore_errors: yes
-#   when:
-#   - grub_update_res.changed
+#   when: ansible_distribution == 'Ubuntu' and grub_update_res.changed
 
 # - name: wait for reboot
 #   become: no
@@ -92,5 +92,4 @@
 #     state: started
 #     delay: 30
 #     timeout: 300
-#   when:
-#   - grub_update_res.changed
+#   when: ansible_distribution == 'Ubuntu' and grub_update_res.changed
