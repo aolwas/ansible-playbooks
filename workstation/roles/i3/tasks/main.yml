@@ -1,12 +1,12 @@
 - name: download i3 keyring
   get_url:
-    url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2018.01.30_all.deb
-    dest: /tmp/sur5r-keyring_2018.01.30_all.deb
+    url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb
+    dest: /tmp/sur5r-keyring_2019.02.01_all.deb
   when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 keyring
   apt:
-    deb: /tmp/sur5r-keyring_2018.01.30_all.deb
+    deb: /tmp/sur5r-keyring_2019.02.01_all.deb
   when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 repo
@@ -26,7 +26,7 @@
     - volumeicon-alsa
     - pavucontrol
       #    - amixer
-      #    - convert
+    - convert
     - grabc
     - i3lock
       #    - notify-send
@@ -36,6 +36,7 @@
       #    - xkill
     - build-essential
     - git
+    - copyq
       #    - zenity
   when: ansible_distribution == 'Ubuntu'
 
@@ -51,6 +52,7 @@
       - scrot
       - sxiv
       - xbacklight
+      - copyq
   dnf:
     name: '{{ i3_pkgs }}'
     state: latest
