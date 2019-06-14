@@ -1,32 +1,28 @@
-- name: install dependencies
+- name: install podman dependencies
   vars:
-    docker_dep_pkgs:
+    podman_dep_pkgs:
     - apt-transport-https
     - ca-certificates
     - curl
     - software-properties-common
+    - uidmap
   apt:
-    name: '{{ docker_dep_pkgs }}'
+    name: '{{ podman_dep_pkgs }}'
     update_cache: yes
     state: latest
 
-- name: install docker key
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-
-- name: install docker repo
+- name: install projectatomic repo
   apt_repository:
-    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} edge'
+    repo: 'ppa:projectatomic/ppa'
+    codename: 'bionic'
 
-- name: install docker
+- name: install podman
   apt:
-    name: 'docker-ce'
+    name: 'podman'
     update_cache: yes
     state: latest
 
-- name: add aolwas user to docker group
-  user:
-    name: aolwas
-    groups: docker
-    append: yes
+    #- name: install docker from snap
+    #  snap:
+    #    name: docker
+    #    state: present

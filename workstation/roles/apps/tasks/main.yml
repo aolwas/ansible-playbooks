@@ -1,12 +1,12 @@
 - name: install albert repo key
   apt_key:
-    url: https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key
+    url: https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_19.04/Release.key
     state: present
   when: ansible_distribution == 'Ubuntu'
 
 - name: install albert repo
   apt_repository:
-    repo: deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /
+    repo: deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_19.04/ /
     state: present
     filename: home:manuelschneid3r
   when: ansible_distribution == 'Ubuntu'
@@ -15,7 +15,7 @@
   vars:
     app_pkgs:
     - qemu-kvm
-    - libvirt-bin
+    - libvirt-daemon
     - bridge-utils
     - virt-manager
     - albert

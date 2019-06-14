@@ -3,7 +3,7 @@
   vars:
     lb_dep_pkgs:
     - build-essential
-    - gcc-4.8
+    - gcc
     - curl
     - git
     - m4
