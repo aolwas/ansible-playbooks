@@ -27,11 +27,9 @@
     state: link
   with_items:
     - { src: 'i3', dest: '.config/i3' }
-    # - { src: 'powerline', dest: '.config/powerline' }
     # - { src: 'vimrc/vimrc', dest: '.vimrc' }
     - { src: 'zsh/config/zshrc', dest: '.zshrc' }
     - { src: 'zsh/config/zsh_plugins.txt', dest: '.zsh_plugins.txt' }
-    # - { src: 'termite', dest: '.config/termite'}
     # - { src: 'tmux/tmux.conf', dest: '.tmux.conf' }
     - { src: 'alacritty/config', dest: '.config/alacritty' }
     - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }

@@ -11,6 +11,39 @@
     filename: home:manuelschneid3r
   when: ansible_distribution == 'Ubuntu'
 
+- name: install chrome repo key
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install chrome repo
+  apt_repository:
+    repo: deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+    filename: google-chrome
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install vscode repo key
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install vscode repo
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+    state: present
+    filename: vscode
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install alacritty repo
+  apt_repository:
+    repo: ppa:mmstick76/alacritty
+    state: present
+    filename: alacritty
+  when: ansible_distribution == 'Ubuntu'
+
 - name: install misc applications
   vars:
     app_pkgs:
@@ -22,6 +55,9 @@
     - ssh-askpass
     - zsh
     - arandr
+    - google-chrome-stable
+    - alacritty
+    - code
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes
@@ -51,14 +87,11 @@
     name: '{{ ansible_env.USER }}'
     shell: /bin/zsh
 
-#- name: install alacritty
-#  apt:
-#    deb: https://github.com/jwilm/alacritty/releases/download/v0.2.5/Alacritty-v0.2.5_amd64.deb
-
-# snap module will be available in ansible 2.8
-# - name: install antibody
-#   snap:
-#     name: antibody
-
 - name: install antibody
   shell: "curl -sL git.io/antibody | sh -s"
+
+- name: install asdf
+  git:
+    repo: 'https://github.com/asdf-vm/asdf.git'
+    dest: '{{ ansible_env.HOME }}/.asdf'
+    version: v0.7.2
