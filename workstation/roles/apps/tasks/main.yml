@@ -19,7 +19,7 @@
 
 - name: install chrome repo
   apt_repository:
-    repo: deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main
+    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
     state: present
     filename: google-chrome
   when: ansible_distribution == 'Ubuntu'
@@ -76,6 +76,7 @@
     - zsh
     - arandr
     - podman
+    - fonts-hack
   dnf:
     name: '{{ app_pkgs }}'
     update_cache: yes
@@ -88,10 +89,15 @@
     shell: /bin/zsh
 
 - name: install antibody
-  shell: "curl -sL git.io/antibody | sh -s"
+  shell: "curl -sL git.io/antibody | sh -s - -b /usr/local/bin"
 
-- name: install asdf
-  git:
-    repo: 'https://github.com/asdf-vm/asdf.git'
-    dest: '{{ ansible_env.HOME }}/.asdf'
-    version: v0.7.2
+- name: install vscode sync
+  become: no
+  shell: "code --install-extension shan.code-settings-sync"
+
+- name: copy sync settings
+  become: no
+  template:
+    dest: "{{ ansible_env.HOME }}/.config/Code/User/syncLocalSettings.json"
+    src: "syncLocalSettings.j2"
+      

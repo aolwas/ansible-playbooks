@@ -1,0 +1,3 @@
+#!/bin/sh
+# !!! Written by gpg-vault-password-file !!!
+gpg --decrypt --batch < $0.asc 2> /dev/null

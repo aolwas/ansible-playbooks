@@ -1,5 +1,0 @@
-- name: install my barista
-  become: no
-  shell: go get github.com/aolwas/mybarista
-  #environment:
-  #  GOBIN: "{{ ansible_env.HOME}}/go/bin"

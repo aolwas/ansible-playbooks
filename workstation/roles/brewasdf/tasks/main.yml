@@ -14,11 +14,6 @@
     - libexpat-dev
     - libncurses-dev
     - zlib1g-dev
-      # if needed for alacritty install
-    - cmake
-    - libfreetype6-dev
-    - libfontconfig1-dev
-    - xclip
   apt:
     name: "{{ lb_dep_pkgs }}"
     state: present
@@ -54,7 +49,6 @@
     lb_pkgs:
     - go
     - dep
-    - rustup-init
     - fzf
     - ag
     - kubernetes-cli
@@ -63,7 +57,7 @@
     - stern
     - awscli
     - vault
-    - terraform
+      #    - terraform
     - gpg2
     - direnv
   homebrew:
@@ -80,3 +74,38 @@
     PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
   become: no
+
+- name: install asdf
+  git:
+    repo: 'https://github.com/asdf-vm/asdf.git'
+    dest: '{{ ansible_env.HOME }}/.asdf'
+    version: v0.7.2
+  become: no
+
+- name: install asdf plugins
+  shell: "source {{ansible_env.HOME}}/.asdf/asdf.sh && asdf plugin-add {{ item }}"
+  args:
+    executable: /bin/bash
+  register: result
+  failed_when:
+    - result.rc != 0
+    - result.rc != 2
+  loop:
+    - rust
+    - python
+    - golang
+  become: no
+
+- name: install asdf default envs
+  shell: "source {{ansible_env.HOME}}/.asdf/asdf.sh && asdf install {{ item.plugin }} {{ item.version }} && asdf global {{ item.plugin }} {{ item.version }}"
+  args:
+    executable: /bin/bash
+  loop:
+    - plugin: rust
+      version: stable
+    - plugin: python
+      version: miniconda3-latest
+    - plugin: golang
+      version: "1.12.6"
+  become: no
+

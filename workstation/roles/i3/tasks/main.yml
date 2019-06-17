@@ -25,11 +25,9 @@
     - network-manager-openvpn-gnome
     - volumeicon-alsa
     - pavucontrol
-      #    - amixer
-    - convert
+    - imagemagick
     - grabc
     - i3lock
-      #    - notify-send
     - scrot
     - sxiv
     - xbacklight
@@ -37,7 +35,6 @@
     - build-essential
     - git
     - copyq
-      #    - zenity
   when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 and associated packages (network-applet, volumeicon, etc)

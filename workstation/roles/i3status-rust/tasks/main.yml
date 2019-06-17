@@ -26,27 +26,13 @@
 
 - name: build i3status-rust
   become: no
-  shell: cargo build --release
+  shell: "source $HOME/.asdf/asdf.sh && source {{ ansible_env.HOME }}/.asdf/installs/rust/stable/env && cargo build --release"
   args:
+    executable: /bin/bash
     chdir: '{{ project_dir }}/i3status-rust'
     creates: '{{ project_dir }}/target/release/i3status-rs'
   environment:
-    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
     PKG_CONFIG_PATH: "/usr/lib/x86_64-linux-gnu/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
-  when: ansible_distribution == 'Ubuntu'
-
-- name: build i3status-rust
-  become: no
-  shell: cargo build --release
-  args:
-    chdir: '{{ project_dir }}/i3status-rust'
-    creates: '{{ project_dir }}/target/release/i3status-rs'
-  environment:
-    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
-    PKG_CONFIG_PATH: "/usr/lib64/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
-  when: ansible_distribution == 'Fedora'
 
 - name: Install i3status-rust
   copy:

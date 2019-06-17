@@ -1,0 +1,23 @@
+- name: install podman dependencies
+  vars:
+    podman_dep_pkgs:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - uidmap
+  apt:
+    name: '{{ podman_dep_pkgs }}'
+    update_cache: yes
+    state: latest
+
+- name: install projectatomic repo
+  apt_repository:
+    repo: 'ppa:projectatomic/ppa'
+    codename: 'bionic'
+
+- name: install podman
+  apt:
+    name: 'podman'
+    update_cache: yes
+    state: latest
