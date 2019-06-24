@@ -32,3 +32,9 @@
     name: '{{ docker_pkgs }}'
     update_cache: yes
     state: latest
+
+- name: 'adding current user {{ ansible_env.USER }} to group docker'
+  user:
+    name: '{{ ansible_env.USER }}'
+    groups: docker
+    append: yes

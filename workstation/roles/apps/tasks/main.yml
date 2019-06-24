@@ -58,6 +58,7 @@
     - google-chrome-stable
     - alacritty
     - code
+    - fonts-hack
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes
