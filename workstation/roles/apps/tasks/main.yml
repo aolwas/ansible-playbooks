@@ -57,6 +57,7 @@
     - arandr
     - google-chrome-stable
     - alacritty
+    - tmux
     - code
     - fonts-hack
   apt:
