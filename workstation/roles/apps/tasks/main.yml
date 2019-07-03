@@ -47,6 +47,8 @@
 - name: install misc applications
   vars:
     app_pkgs:
+    - network-manager-openvpn-gnome
+    - network-manager-l2tp-gnome
     - qemu-kvm
     - libvirt-daemon
     - bridge-utils
