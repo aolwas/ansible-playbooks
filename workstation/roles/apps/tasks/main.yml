@@ -62,6 +62,8 @@
     - tmux
     - code
     - fonts-hack
+    - exfat-fuse
+    - exfat-utils
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes
