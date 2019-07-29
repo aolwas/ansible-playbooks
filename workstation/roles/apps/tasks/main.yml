@@ -64,6 +64,7 @@
     - fonts-hack
     - exfat-fuse
     - exfat-utils
+    - copyq
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes

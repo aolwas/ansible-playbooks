@@ -1,18 +1,18 @@
-- name: download i3 keyring
-  get_url:
-    url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb
-    dest: /tmp/sur5r-keyring_2019.02.01_all.deb
-  when: ansible_distribution == 'Ubuntu'
-
-- name: install i3 keyring
-  apt:
-    deb: /tmp/sur5r-keyring_2019.02.01_all.deb
-  when: ansible_distribution == 'Ubuntu'
-
-- name: install i3 repo
-  apt_repository:
-    repo: 'deb http://debian.sur5r.net/i3/ {{ ansible_distribution_release }} universe'
-  when: ansible_distribution == 'Ubuntu'
+#- name: download i3 keyring
+#  get_url:
+#    url: http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2019.02.01_all.deb
+#    dest: /tmp/sur5r-keyring_2019.02.01_all.deb
+#  when: ansible_distribution == 'Ubuntu'
+#
+#- name: install i3 keyring
+#  apt:
+#    deb: /tmp/sur5r-keyring_2019.02.01_all.deb
+#  when: ansible_distribution == 'Ubuntu'
+#
+#- name: install i3 repo
+#  apt_repository:
+#    repo: 'deb http://debian.sur5r.net/i3/ {{ ansible_distribution_release }} universe'
+#  when: ansible_distribution == 'Ubuntu'
 
 - name: install i3 and associated packages (network-applet, volumeicon, etc)
   apt:
@@ -83,7 +83,7 @@
   args:
     chdir: '{{ project_dir }}/i3-utils-systemd'
 
-- name: ensure xbacklight is functional
-  template:
-    src: xbacklight-intel.j2
-    dest: /usr/share/X11/xorg.conf.d/20-intel.conf
+    #- name: ensure xbacklight is functional
+    #  template:
+    #    src: xbacklight-intel.j2
+    #    dest: /usr/share/X11/xorg.conf.d/20-intel.conf

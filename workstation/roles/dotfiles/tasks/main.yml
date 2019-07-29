@@ -31,11 +31,20 @@
     src: '{{ project_dir }}/configs/{{ item.src }}'
     path: '{{ ansible_env.HOME }}/{{ item.dest }}'
     state: link
+    force: yes
   with_items:
     - { src: 'i3', dest: '.config/i3' }
+    - { src: 'alacritty/config', dest: '.config/alacritty' }
+    - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }
+
+- name: create relative symlinks
+  file:
+    src: '{{ rel_project_dir }}/configs/{{ item.src }}'
+    path: '{{ ansible_env.HOME }}/{{ item.dest }}'
+    state: link
+    force: yes
+  with_items:
     # - { src: 'vimrc/vimrc', dest: '.vimrc' }
     - { src: 'zsh/config/zshrc', dest: '.zshrc' }
     - { src: 'zsh/config/zsh_plugins.txt', dest: '.zsh_plugins.txt' }
     - { src: 'tmux/tmux.conf', dest: '.tmux.conf' }
-    - { src: 'alacritty/config', dest: '.config/alacritty' }
-    - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }
