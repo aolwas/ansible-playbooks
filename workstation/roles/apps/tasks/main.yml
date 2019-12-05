@@ -24,6 +24,19 @@
     filename: google-chrome
   when: ansible_distribution == 'Ubuntu'
 
+- name: install brave repo key
+  apt_key:
+    url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install brave repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ {{ ansible_distribution_release }} main"
+    state: present
+    filename: google-chrome
+  when: ansible_distribution == 'Ubuntu'
+
 - name: install vscode repo key
   apt_key:
     url: https://packages.microsoft.com/keys/microsoft.asc
@@ -65,6 +78,7 @@
     - exfat-fuse
     - exfat-utils
     - copyq
+    - brave-browser
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes
@@ -101,10 +115,12 @@
 - name: install vscode sync
   become: no
   shell: "code --install-extension shan.code-settings-sync"
+  when: ansible_distribution == 'Ubuntu'
 
 - name: copy sync settings
   become: no
   template:
     dest: "{{ ansible_env.HOME }}/.config/Code/User/syncLocalSettings.json"
     src: "syncLocalSettings.j2"
+  when: ansible_distribution == 'Ubuntu'
       
