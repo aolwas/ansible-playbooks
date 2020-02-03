@@ -1,14 +1,21 @@
-- name: install albert repo key
-  apt_key:
-    url: https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_19.04/Release.key
-    state: present
-  when: ansible_distribution == 'Ubuntu'
+#- name: install albert repo key
+#  apt_key:
+#    url: https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_19.10/Release.key
+#    state: present
+#  when: ansible_distribution == 'Ubuntu'
 
-- name: install albert repo
+#- name: install albert repo
+#  apt_repository:
+#    repo: deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_19.04/ /
+#    state: present
+#    filename: home:manuelschneid3r
+#  when: ansible_distribution == 'Ubuntu'
+
+- name: install ulauncher repo
   apt_repository:
-    repo: deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_19.04/ /
+    repo: ppa:agornostal/ulauncher
     state: present
-    filename: home:manuelschneid3r
+    filename: ulauncher
   when: ansible_distribution == 'Ubuntu'
 
 - name: install chrome repo key
@@ -66,7 +73,7 @@
     - libvirt-daemon
     - bridge-utils
     - virt-manager
-    - albert
+    - ulauncher
     - ssh-askpass
     - zsh
     - arandr

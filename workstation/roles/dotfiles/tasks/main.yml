@@ -20,7 +20,7 @@
     - '.local/share/applications/Alacritty.desktop'
     - '.tmux.conf'
     - '.tmux'
-
+    - '.config/starship.toml'
 - name: install tmux plugin manager
   git:
     repo: 'https://github.com/tmux-plugins/tpm'
@@ -36,6 +36,7 @@
     - { src: 'i3', dest: '.config/i3' }
     - { src: 'alacritty/config', dest: '.config/alacritty' }
     - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }
+    - { src: 'starship/starship.toml', dest: '.config/starship.toml'}
 
 - name: create relative symlinks
   file:

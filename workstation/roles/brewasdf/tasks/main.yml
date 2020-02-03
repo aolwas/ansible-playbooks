@@ -48,6 +48,7 @@
   vars:
     lb_pkgs:
     - go
+    - rust
     - dep
     - fzf
     - ag
@@ -57,9 +58,12 @@
     - stern
     - awscli
     - vault
-      #    - terraform
+    - terraform
     - gpg2
     - direnv
+    - starship
+    - scala@2.12
+    - sbt
   homebrew:
     name: "{{ lb_pkgs }}"
     state: present
@@ -75,37 +79,49 @@
     LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
   become: no
 
-- name: install asdf
-  git:
-    repo: 'https://github.com/asdf-vm/asdf.git'
-    dest: '{{ ansible_env.HOME }}/.asdf'
-    version: v0.7.2
-  become: no
+# - name: install asdf
+#   git:
+#     repo: 'https://github.com/asdf-vm/asdf.git'
+#     dest: '{{ ansible_env.HOME }}/.asdf'
+#     version: v0.7.2
+#   become: no
 
-- name: install asdf plugins
-  shell: "source {{ansible_env.HOME}}/.asdf/asdf.sh && asdf plugin-add {{ item }}"
-  args:
-    executable: /bin/bash
-  register: result
-  failed_when:
-    - result.rc != 0
-    - result.rc != 2
-  loop:
-    - rust
-    - python
-    - golang
-  become: no
+# - name: install asdf plugins
+#   shell: "source {{ansible_env.HOME}}/.asdf/asdf.sh && asdf plugin-add {{ item }}"
+#   args:
+#     executable: /bin/bash
+#   register: result
+#   failed_when:
+#     - result.rc != 0
+#     - result.rc != 2
+#   loop:
+#     - rust
+#     - python
+#     - golang
+#     - java
+#     - adr-tools
+#     - sbt
+#     - scala
+#   become: no
 
-- name: install asdf default envs
-  shell: "source {{ansible_env.HOME}}/.asdf/asdf.sh && asdf install {{ item.plugin }} {{ item.version }} && asdf global {{ item.plugin }} {{ item.version }}"
-  args:
-    executable: /bin/bash
-  loop:
-    - plugin: rust
-      version: stable
-    - plugin: python
-      version: miniconda3-latest
-    - plugin: golang
-      version: "1.12.6"
-  become: no
+# - name: install asdf default envs
+#   shell: "source {{ansible_env.HOME}}/.asdf/asdf.sh && asdf install {{ item.plugin }} {{ item.version }} && asdf global {{ item.plugin }} {{ item.version }}"
+#   args:
+#     executable: /bin/bash
+#   loop:
+#     - plugin: rust
+#       version: stable
+#     - plugin: python
+#       version: miniconda3-latest
+#     - plugin: golang
+#       version: "1.13.6"
+#     - plugin: java
+#       version: amazon-corretto-11.0.3.7.1
+#     - plugin: adr-tools
+#       version: 3.0.0
+#     - plugin: sbt
+#       version: 1.3.7
+#     - plugin: scala
+#       version: 2.12.10
+#   become: no
 
