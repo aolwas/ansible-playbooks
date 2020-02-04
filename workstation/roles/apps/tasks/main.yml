@@ -86,6 +86,7 @@
     - exfat-utils
     - copyq
     - brave-browser
+    - blueman
   apt:
     name: '{{ app_pkgs }}'
     update_cache: yes
