@@ -64,6 +64,8 @@
     - starship
     - scala@2.12
     - sbt
+    - hub
+    - k9s
   homebrew:
     name: "{{ lb_pkgs }}"
     state: present
