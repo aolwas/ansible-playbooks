@@ -10,10 +10,12 @@
     state: absent
   ignore_errors: yes
   with_items:
+    - '.config/sway'
     - '.config/i3'
     - '.config/powerline'
     - '.config/termite'
     - '.config/alacritty'
+    - '.config/i3status-rust'
     - '.vimrc'
     - '.zshrc'
     - '.zsh_plugins.txt'
@@ -34,8 +36,18 @@
     force: yes
   with_items:
     - { src: 'i3', dest: '.config/i3' }
+    - { src: 'i3status-rust', dest: '.config/i3status-rust' }
+    - { src: 'sway', dest: '.config/sway' }
     - { src: 'alacritty/config', dest: '.config/alacritty' }
     - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }
+    - { src: 'starship/starship.toml', dest: '.config/starship.toml'}
+
+- name: copy file
+  copy:
+    src: '{{ project_dir }}/configs/{{ item.src }}'
+    dest: '{{ ansible_env.HOME }}/{{ item.dest }}'
+    remote_src: yes
+  with_items:
     - { src: 'starship/starship.toml', dest: '.config/starship.toml'}
 
 - name: create relative symlinks
