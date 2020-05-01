@@ -1,6 +1,7 @@
 - name: install sway repo
   apt_repository:
     repo: 'ppa:samoilov-lex/sway'
+    codename: 'disco'
   when: ansible_distribution == 'Ubuntu'
 
 - name: install sway and associated packages
@@ -10,15 +11,22 @@
     state: latest
   with_items:
     - sway
+    - swaybg
+    - mako-notifier
     - network-manager-openvpn-gnome
     - pavucontrol
     - imagemagick
     - swaylock
-    - brightessctl
+    - brightnessctl
     - build-essential
     - git
     - grim
     - slurp
-    - wl-clipboard
     - rofi
+  when: ansible_distribution == 'Ubuntu'
+
+- name: install latest wl-clipboard version from next ubuntu distrib
+  apt:
+    deb: https://launchpad.net/ubuntu/+archive/primary/+files/wl-clipboard_2.0.0-1_amd64.deb
+    state: present
   when: ansible_distribution == 'Ubuntu'
