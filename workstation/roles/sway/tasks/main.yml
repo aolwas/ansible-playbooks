@@ -17,6 +17,8 @@
     - pavucontrol
     - imagemagick
     - swaylock
+    - swayidle
+    - wdisplays
     - brightnessctl
     - build-essential
     - git
