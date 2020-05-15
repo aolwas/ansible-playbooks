@@ -1,20 +1,15 @@
-- name: install podman dependencies
-  vars:
-    podman_dep_pkgs:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - software-properties-common
-    - uidmap
-  apt:
-    name: '{{ podman_dep_pkgs }}'
-    update_cache: yes
-    state: latest
+- name: install podman repo key
+  apt_key:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/Release.key"
+    state: present
+  when: ansible_distribution == 'Ubuntu'
 
-- name: install projectatomic repo
+- name: install podman repo
   apt_repository:
-    repo: 'ppa:projectatomic/ppa'
-    codename: 'bionic'
+    repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/ /"
+    state: present
+    filename: podman
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install podman
   apt:
