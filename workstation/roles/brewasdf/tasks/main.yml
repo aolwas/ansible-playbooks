@@ -48,8 +48,7 @@
   vars:
     lb_pkgs:
     - go
-    - rust
-    - dep
+    - rustup
     - fzf
     - ag
     - kubernetes-cli
@@ -59,13 +58,13 @@
     - awscli
     - vault
     - terraform
-    - gpg2
+      #    - gpg2
     - direnv
     - starship
-    - scala@2.12
-    - sbt
+      #- scala@2.12
+      #- sbt
     - hub
-    - k9s
+    - derailed/k9s/k9s
   homebrew:
     name: "{{ lb_pkgs }}"
     state: present
@@ -76,6 +75,13 @@
 
 - name: fzf post install
   shell: "/home/linuxbrew/.linuxbrew/opt/fzf/install --all"
+  environment:
+    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
+    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
+  become: no
+
+- name: rust post install
+  shell: "rustup-init -y -q --profile complete"
   environment:
     PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
     LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"

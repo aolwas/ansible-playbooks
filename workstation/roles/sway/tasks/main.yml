@@ -19,12 +19,15 @@
     - swaylock
     - swayidle
     - wdisplays
+    - waybar
     - brightnessctl
     - build-essential
     - git
     - grim
     - slurp
     - rofi
+    - fonts-cantarell
+    - fonts-noto
   when: ansible_distribution == 'Ubuntu'
 
 # - name: install latest wl-clipboard version from next ubuntu distrib

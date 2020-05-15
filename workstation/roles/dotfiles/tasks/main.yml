@@ -16,6 +16,9 @@
     - '.config/termite'
     - '.config/alacritty'
     - '.config/i3status-rust'
+    - '.config/rofi'
+    - '.config/waybar'
+    - '.config/networkmanager-dmenu'
     - '.vimrc'
     - '.zshrc'
     - '.zsh_plugins.txt'
@@ -35,12 +38,14 @@
     state: link
     force: yes
   with_items:
-    - { src: 'i3', dest: '.config/i3' }
-    - { src: 'i3status-rust', dest: '.config/i3status-rust' }
+    # - { src: 'i3', dest: '.config/i3' }
+    # - { src: 'i3status-rust', dest: '.config/i3status-rust' }
     - { src: 'sway', dest: '.config/sway' }
+    - { src: 'waybar', dest: '.config/waybar' }
+    - { src: 'rofi', dest: '.config/rofi' }
+    - { src: 'networkmanager-dmenu', dest: '.config/networkmanager-dmenu' }
     - { src: 'alacritty/config', dest: '.config/alacritty' }
     - { src: 'alacritty/desktop/Alacritty.desktop', dest: '.local/share/applications/Alacritty.desktop' }
-    - { src: 'starship/starship.toml', dest: '.config/starship.toml'}
 
 - name: copy file
   copy:

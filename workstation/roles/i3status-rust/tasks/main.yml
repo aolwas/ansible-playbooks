@@ -34,8 +34,7 @@
     chdir: '{{ project_dir }}/i3status-rust'
     creates: '{{ project_dir }}/target/release/i3status-rs'
   environment:
-    PATH: "/home/linuxbrew/.linuxbrew/bin:{{ ansible_env.PATH }}"
-    LD_LIBRARY_PATH: "/home/linuxbrew/.linuxbrew/lib:{{ ansible_env.LD_LIBRARY_PATH | default('') }}"
+    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
     PKG_CONFIG_PATH: "/usr/lib/x86_64-linux-gnu/pkgconfig:{{ ansible_env.PKG_CONFIG_PATH | default('') }}"
 
 - name: Install i3status-rust
