@@ -1,18 +1,19 @@
 ---
 - name: Clone repo
   become: no
-  git: 
+  git:
     repo: https://github.com/greshake/i3status-rust
     accept_hostkey: true
     dest: '{{ project_dir }}/i3status-rust'
 
 - name: Install dependencies
-  apt: 
-    name: "{{item}}"
+  vars:
+    i3status_pkgs:
+      - libdbus-1-dev
+      - fonts-font-awesome
+  apt:
+    name: "{{ i3status_pkgs }}"
     state: present
-  with_items:
-  - libdbus-1-dev
-  - fonts-font-awesome
   when: ansible_distribution == 'Ubuntu'
 
 - name: Install dependencies
@@ -20,7 +21,7 @@
     i3status_pkgs:
       - dbus-devel
       - fontawesome-fonts
-  dnf: 
+  dnf:
     name: '{{ i3status_pkgs }}'
     state: present
   when: ansible_distribution == 'Fedora'
