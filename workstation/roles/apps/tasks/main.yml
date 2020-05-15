@@ -19,7 +19,7 @@
 
 - name: install brave repo
   apt_repository:
-    repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ {{ ansible_distribution_release }} main"
+    repo: "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
     state: present
     filename: google-chrome
   when: ansible_distribution == 'Ubuntu'
@@ -55,8 +55,8 @@
     - virt-manager
     - ssh-askpass
     - zsh
-    - arandr
-    - google-chrome-stable
+#    - arandr
+#    - google-chrome-stable
     - alacritty
     - tmux
     - code
@@ -64,7 +64,7 @@
     - exfat-fuse
     - exfat-utils
     - copyq
-    - brave-browser
+#    - brave-browser
     - blueman
   apt:
     name: '{{ app_pkgs }}'

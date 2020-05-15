@@ -1,8 +1,8 @@
-- name: install sway repo
-  apt_repository:
-    repo: 'ppa:samoilov-lex/sway'
-    codename: 'disco'
-  when: ansible_distribution == 'Ubuntu'
+# - name: install sway repo
+#   apt_repository:
+#     repo: 'ppa:samoilov-lex/sway'
+#     codename: 'disco'
+#   when: ansible_distribution == 'Ubuntu'
 
 - name: install sway and associated packages
   apt:
@@ -27,8 +27,8 @@
     - rofi
   when: ansible_distribution == 'Ubuntu'
 
-- name: install latest wl-clipboard version from next ubuntu distrib
-  apt:
-    deb: https://launchpad.net/ubuntu/+archive/primary/+files/wl-clipboard_2.0.0-1_amd64.deb
-    state: present
-  when: ansible_distribution == 'Ubuntu'
+# - name: install latest wl-clipboard version from next ubuntu distrib
+#   apt:
+#     deb: https://launchpad.net/ubuntu/+archive/primary/+files/wl-clipboard_2.0.0-1_amd64.deb
+#     state: present
+#   when: ansible_distribution == 'Ubuntu'
