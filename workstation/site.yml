@@ -4,7 +4,7 @@
     - { role: sway, become: yes, tags: [sway] }
     - { role: apps, become: yes, tags: [apps] }
     - { role: brewasdf, become: yes, tags: [brewasdf] }
-    - { role: i3status-rust, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [i3status-rust] }
+    #- { role: i3status-rust, become: yes, project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [i3status-rust] }
     - { role: dotfiles, rel_project_dir: 'Projects/Perso', project_dir: '{{ ansible_env.HOME }}/Projects/Perso', tags: [dotfiles] }
     - { role: podman, become: yes, tags: [podman] }
     - { role: docker, become: yes, tags: [docker] }
