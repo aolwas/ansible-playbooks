@@ -6,7 +6,7 @@
 
 - name: install sway and associated packages
   apt:
-    name: '{{ item }}'
+    name: "{{ item }}"
     update_cache: yes
     state: latest
   with_items:
@@ -20,6 +20,7 @@
     - swayidle
     - wdisplays
     - waybar
+    - wl-clipboard
     - brightnessctl
     - build-essential
     - git
@@ -37,7 +38,6 @@
     mode: u+s
     modification_time: preserve
     access_time: preserve
-
 # - name: install latest wl-clipboard version from next ubuntu distrib
 #   apt:
 #     deb: https://launchpad.net/ubuntu/+archive/primary/+files/wl-clipboard_2.0.0-1_amd64.deb
